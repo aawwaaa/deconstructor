@@ -1,0 +1,117 @@
+#input {
+  position: fixed;
+  bottom: 15px;
+  height: 350px;
+  width: 80%; /* 可根据需要调整宽度 */
+  right: 15px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 
+              0 5px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 19;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  transition: bottom 0.15s ease;
+}
+#input[shown="false"] {
+  bottom: -450px;
+}
+
+#input > math-field {
+  display: block;
+  width: calc(100%); /* 为按钮留出空间 */
+  height: calc(100% - 40px);
+  margin: 0 auto 0 0;
+  padding: 15px;
+  font-size: 20px;
+}
+#input[mode="text"] > math-field {
+  display: none;
+}
+#input > textarea {
+  display: block;
+  width: calc(100%); /* 为按钮留出空间 */
+  height: calc(100% - 40px);
+  margin: 0 auto 0 0;
+  padding: 15px;
+  font-size: 20px;
+}
+#input[mode="math"] > textarea {
+  display: none;
+}
+
+#input > #submit {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 20px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+#input > #submit:hover {
+  background-color: #45a049;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+#input > #toggle-mode {
+  position: absolute;
+  right: 20px;
+  bottom: 110px;
+  background-color: #f0f0f0;
+  color: #555;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 16px;
+  cursor: pointer;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+#input > #close {
+  position: absolute;
+  right: 20px;
+  bottom: 65px;
+  background-color: #f0f0f0;
+  color: #555;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 16px;
+  cursor: pointer;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+#input > #close:hover {
+  background-color: #e0e0e0;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+#input + button {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  background-color: #f0f0f0;
+  color: #555;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 16px;
+  cursor: pointer;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: bottom 0.3s ease;
+}
+
+#input + button {
+  background-color: #e0e0e0;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+#input[shown="true"] + button {
+  bottom: -50px;
+}

@@ -1,0 +1,49 @@
+#actions {
+  position: fixed;
+  bottom: 15px;
+  height: 100px;
+  width: 100px; /* 可根据需要调整宽度 */
+  left: 15px;
+  z-index: 10;
+  transition: bottom 0.15s ease;
+  display: inline-flex;
+  align-items: normal;
+  flex-direction: column-reverse;
+}
+
+#actions > button {
+  background-color: #f0f0f0;
+  color: #555;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 16px;
+  cursor: pointer;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 8px;
+  transition: bottom 0.3s ease;
+}
+
+#actions > button {
+  background-color: #e0e0e0;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+#config-panel {
+  position: fixed;
+  bottom: 15px;
+  height: calc(100% - 70px);
+  width: calc(100% - 70px); /* 可根据需要调整宽度 */
+  left: 15px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 
+              0 5px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 20;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  transition: bottom 0.15s ease;
+}
+#config-panel[shown="false"] {
+  bottom: calc(-30px - 100%);
+}

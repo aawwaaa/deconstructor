@@ -1,0 +1,172 @@
+#tree {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  position: relative;
+}
+
+#tree > #root {
+  width: calc(min(100%, 100vw) - 90px);
+  margin: 20px;
+  /* margin-left: 370px; */
+  border-radius: 15px;
+  border: 5px solid #ffee00;
+  box-shadow: 0 8px 8px rgba(0, 0, 0, 0.1);
+}
+
+.node {
+  --team-color: #a0a0a0;
+  --name-color: #000000;
+  position: relative;
+  padding: 10px;
+  margin: 10px;
+  min-width: 400px;
+  border-radius: 10px;
+  border: 5px solid #66ff44;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
+}
+
+.node::after {
+  content: "";
+  position: absolute;
+  top: 0px; /* 边框宽度 */
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  z-index: -1; /* 确保在内容下方 */
+  background-color: white;
+  background-size: 200% 200%;
+  border-radius: inherit;
+  box-sizing: border-box;
+}
+
+.node[status="inputing"] {
+  border: 5px solid #44ddee;
+  opacity: 0.8;
+}
+.node[status="verifing"] {
+  border-radius: 8px; /* 可选，根据你的设计需要 */
+  z-index: 0; /* 确保内容在伪元素之上 */
+}
+
+.node[status="verifing"]::before {
+  content: "";
+  position: absolute;
+  top: -5px; /* 边框宽度 */
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  z-index: -2; /* 确保在内容下方 */
+  background: linear-gradient(135deg, 
+    #e0b0ff 0%,  /* 淡紫色（浅紫） */
+    #9370db 20%, /* 过渡到中等紫 */
+    #8a2be2 50%, /* 深紫 */
+    #4b0082 100% /* 最深紫 */
+  );
+  background-size: 200% 200%;
+  animation: gradientMove 1s ease infinite;
+  border-radius: inherit;
+  box-sizing: border-box;
+}
+
+@keyframes gradientMove {
+  0%, 100% {
+    background-position: 0% 0%; /* 左上 */
+  }
+  90% {
+    background-position: 100% 100%; /* 右下 */
+  }
+}
+
+.node > .status {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 24px;
+}
+
+.node > .status > .player {
+  width: 100px;
+  height: 18px; /* 需要设置高度 */
+  color: var(--name-color);
+  border-radius: 15px; /* 圆角大小 */
+  margin-right: 5px;
+  border: 3px solid var(--team-color); /* 可选：添加轻微边框增强效果 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.node > .status > .select {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+  background-color: #f0f0f0;
+  color: #555;
+  border: none;
+  border-radius: 15px;
+  padding: 2px 16px;
+  cursor: pointer;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.node > .status > .select:hover {
+  background-color: #e0e0e0;
+  box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.selected > .status > .select:hover {
+  background-color: #e0e080;
+}
+
+.selected > .status > .select {
+  background-color: #f0f070;
+}
+
+.bar {
+  --bar-value: 0.5; /* 默认值 50% */
+  --primary-color: #4CAF50;
+  --secondary-color: #8BC34A;
+  --text-color: white;
+  --text-outline-color: rgba(0, 0, 0, 0.5);
+  --text-outline-width: 1px;
+  
+  width: calc(100% - 190px);
+  height: 24px;
+  background: 
+    linear-gradient(90deg, 
+      var(--primary-color) 0%, 
+      var(--secondary-color) 100%) 
+    left/calc(var(--bar-value) * 100%) 100% no-repeat, 
+    #f0f0f0;
+  border-radius: 15px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 10px;
+  color: var(--text-color);
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  font-weight: bold; /* 让文字更粗，描边更明显 */
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
+  
+  /* 文字描边效果 */
+  -webkit-text-stroke: var(--text-outline-width) var(--text-outline-color);
+  text-stroke: var(--text-outline-width) var(--text-outline-color);
+}
+
+#tree > #body {
+  display: flex;
+  flex-direction: row; /* 默认值，可省略 */
+  flex-wrap: nowrap; /* 禁止换行 */
+}
+
+#tree > #body > .column {
+  --fork-top: 0px;
+  width: 450px;
+  padding-top: var(--fork-top);
+}

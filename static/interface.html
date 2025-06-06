@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=0.8, minimum-scale=0.8, maximum-scale=0.8, user-scalable=no" />
+        <title>Interface</title>
+
+        <script type="text/javascript">
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            },
+            svg: {
+                fontCache: 'global'
+            }
+        };
+        </script>
+        <script id="MathJax-script" src="/node_modules/mathjax/es5/tex-mml-chtml.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+        <script src="https://tikzjax.com/v1/tikzjax.js"></script>
+        <script src="/node_modules/@json-editor/json-editor/dist/jsoneditor.js"></script>
+
+        <script src="/node_modules/mathlive/mathlive.min.js" defer></script>
+        <script src="/node_modules/dragscroll/dragscroll.js" defer></script>
+
+        <link rel="stylesheet" type="text/css" href="interface.css">
+        <link rel="stylesheet" type="text/css" href="interface/announce.css">
+        <link rel="stylesheet" type="text/css" href="interface/tree.css">
+        <link rel="stylesheet" type="text/css" href="interface/players.css">
+        <link rel="stylesheet" type="text/css" href="interface/chat.css">
+        <link rel="stylesheet" type="text/css" href="interface/input.css">
+        <link rel="stylesheet" type="text/css" href="interface/popup.css">
+        <link rel="stylesheet" type="text/css" href="interface/actions.css">
+        <script src="interface.js" type="module"></script>
+    </head>
+    <body>
+        <div id="tree" class="dragscroll">
+            <div id="root" class="node selected">
+                <div class="data"></div>
+                <div class="status">
+                    <span class="player"></span>
+                    <div class="bar" style="--bar-value: 0.5; ">N/A</div>
+                    <button class="select">选择</button>
+                </div>
+            </div>
+            <div id="body">
+            </div>
+        </div>
+        <div id="actions">
+            <button id="join">加入游戏</button>
+            <button id="start-game">开始游戏</button>
+            <button id="room-config">房间配置</button>
+            <button id="chat-toggle">聊天</button>
+            <button id="players-toggle">玩家列表</button>
+        </div>
+        <div id="config-panel" shown="false">
+            <div id="editor-placeholder"></div>
+            <button id="save-config">保存</button>
+        </div>
+        <div id="input" shown="false" mode="math">
+            <math-field></math-field>
+            <textarea></textarea>
+            <button id="toggle-mode">切换模式</button>
+            <button id="close">关闭</button>
+            <button id="submit">提交!</button>
+        </div>
+        <button>提交面板</button>
+        <div id="chat" shown="false">
+            <div id="chat-content"> </div>
+            <form id="chat-form" action="javascript:void(0)">
+                <input type="text" id="chat-input" placeholder="输入消息...">
+                <button type="submit">发送</button>
+            </form>
+        </div>
+        <div id="players" shown="false"> </div>
+        <div id="network" class="announce" shown="true" folded="false" style="--theme-color: #ffaa44">
+            <div class="head"> <span>页面加载中</span> <button>展开</button> </div>
+            <div class="body"> <button>折叠</button> <div class="title">页面加载中</div> </div>
+        </div>
+        <div id="keystep" class="announce" shown="false" folded="false" style="--top: 150px">
+            <div class="head"> <span>关键一步</span> <button>展开</button> </div>
+            <div class="body"> <button>折叠</button> <div class="title">关键一步</div>
+                <div class="content">玩家 xxx 做出了关键一步, 推动了 10% 的进度</div>
+            </div>
+        </div>
+        <div id="deconstructed" class="announce" shown="false" folded="false" style="--top: 300px; --height: 400px; --theme-color: #33cc66;">
+            <div class="head"> <span>系统消息：解构! 下一关卡将于 xxx 秒后开始</span> <button>展开</button> </div>
+            <div class="body"> <button>折叠</button> <div class="title">解构!</div>
+                <div class="subtitle">下一关卡将于 xxx 秒后开始</div>
+                <div class="rank"> </div>
+            </div>
+        </div>
+        <div id="modal" class="modal-overlay">
+            <div class="modal-content" id="modalContent"> </div>
+        </div>
+    </body>
+</html>

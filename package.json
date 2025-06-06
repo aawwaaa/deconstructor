@@ -1,0 +1,22 @@
+{
+  "name": "deconstructor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "nodemon --ignore 'static/*' main.js"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@json-editor/json-editor": "^2.15.2",
+    "dragscroll": "^0.0.8",
+    "express": "^5.1.0",
+    "express-ws": "^5.0.2",
+    "libxmljs": "^1.0.11",
+    "mathjax": "^3.2.2",
+    "mathlive": "^0.105.3",
+    "nodemon": "^3.1.10",
+    "openai": "^5.1.0"
+  }
+}

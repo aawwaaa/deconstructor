@@ -1,0 +1,12 @@
+/* 0.28.0 */import { BoxedExpression } from '../public';
+/** An interval is a continuous set of real numbers */
+export type Interval = {
+    start: number;
+    openStart: boolean;
+    end: number;
+    openEnd: boolean;
+};
+export declare function interval(expr: BoxedExpression): Interval | undefined;
+export declare function intervalContains(int: Interval, val: number): boolean;
+/** Return true if int1 is a subset of int2 */
+export declare function intervalSubset(int1: Interval, int2: Interval): boolean;

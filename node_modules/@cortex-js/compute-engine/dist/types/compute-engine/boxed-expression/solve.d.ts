@@ -1,0 +1,19 @@
+/* 0.28.0 */import type { BoxedExpression } from './public';
+import { Rule } from '../public';
+export declare const UNIVARIATE_ROOTS: Rule[];
+/**
+ * Expression is a function of a single variable (`x`) or an Equality
+ *
+ * Return the roots of that variable
+ *
+ */
+export declare function findUnivariateRoots(expr: BoxedExpression, x: string): ReadonlyArray<BoxedExpression>;
+/** Expr is an equation with an operator of
+ * - `Equal`, `Less`, `Greater`, `LessEqual`, `GreaterEqual`
+ *
+ * Return an expression with the same operator, but with the first argument
+ * a variable, if possible:
+ * `2x < 4` => `x < 2`
+ */
+export declare function univariateSolve(expr: BoxedExpression, x: string): ReadonlyArray<BoxedExpression> | null;
+export declare const HARMONIZATION_RULES: Rule[];

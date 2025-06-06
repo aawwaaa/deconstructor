@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=1000px, initial-scale=1.0">
+    <title>Announce</title>
+    <link rel="stylesheet" type="text/css" href="announce.css">
+    <script src="announce.js" type="module"></script>
+  </head>
+  <body> 
+    <div id="announce-keystep" class="announce" shown="true" folded="false">
+      <div class="head"> <span>系统消息：关键一步</span> <button>展开</button> </div>
+      <div class="body">
+        <button>折叠</button>
+        <div class="title">关键一步</div>
+        <div class="content">玩家 xxx 做出了关键一步, 推动了 10% 的进度</div>
+      </div>
+    </div>
+    <button onclick="toggle()">切换</button>
+    <script>
+      function toggle() {
+        document.getElementById('announce-keystep').style.animation = '';
+        document.getElementById('announce-keystep').setAttribute('shown', 
+          document.getElementById('announce-keystep').getAttribute('shown') == 'false'
+        )
+      }
+    </script>
+    <div id="announce-deconstructed" class="announce" shown="false" folded="false">
+      <div class="head"> <span>系统消息：解构! 下一关卡将于 xxx 秒后开始</span> <button>展开</button> </div>
+      <div class="body">
+        <div class="title">解构!</div>
+        <div class="subtitle">下一关卡将于 xxx 秒后开始</div>
+        <div class="rank">
+          为解构链做出贡献的玩家及其得分:
+          [team] player      score
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

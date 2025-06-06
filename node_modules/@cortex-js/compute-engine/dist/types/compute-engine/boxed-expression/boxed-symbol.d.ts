@@ -1,0 +1,132 @@
+/* 0.28.0 */import { Decimal } from 'decimal.js';
+import type { Expression } from '../../math-json/types';
+import type { Type, TypeString } from '../../common/type/types';
+import type { BoxedExpression, BoxedRuleSet, BoxedSymbolDefinition, IComputeEngine, EvaluateOptions, ReplaceOptions, SimplifyOptions, Substitution, Metadata, PatternMatchOptions, RuntimeScope, BoxedFunctionDefinition, BoxedBaseDefinition, BoxedSubstitution, Rule, CanonicalOptions, BoxedRule, Sign } from './public';
+import { NumericValue } from '../numeric-value/public';
+import { _BoxedExpression } from './abstract-boxed-expression';
+import { BigNum } from '../numerics/bignum';
+import type { OneOf } from '../../common/one-of';
+import { BoxedType } from '../../common/type/boxed-type';
+/**
+ * BoxedSymbol
+ *
+ * A boxed symbol is a reference to a `BoxedSymbolDefinition` or a
+ * `BoxedFunctionDefinition`.
+ *
+ * If a `BoxedSymbolDefinition`, it "owns" all the information
+ * about the symbol, its value, domain and various attributes.
+ *
+ * If a `BoxedFunctionDefinition`, it it a reference to a function name,
+ * not a function expression, i.e. `Sin`, not `["Sin", "Pi"]`. This is used
+ * for example in `["InverseFunction", "Sin"]`
+ *
+ * @noInheritDoc
+ *
+ */
+export declare class BoxedSymbol extends _BoxedExpression {
+    private _scope;
+    protected _id: string;
+    private _hash;
+    private _def;
+    private _isStructural;
+    constructor(ce: IComputeEngine, name: string, options?: {
+        metadata?: Metadata;
+        canonical?: CanonicalOptions;
+        structural?: boolean;
+        def?: OneOf<[BoxedSymbolDefinition, BoxedFunctionDefinition]>;
+    });
+    get json(): Expression;
+    get hash(): number;
+    get isPure(): boolean;
+    get isStructural(): boolean;
+    get structural(): BoxedExpression;
+    get scope(): RuntimeScope | null;
+    get isConstant(): boolean;
+    private _lookupDef;
+    /** This method returns the definition associated with the value of this symbol, or associated with the symbol if it has no value. This is the definition to use with most operations on the symbol. Indeed, "x[2]" is accessing the second element of **the value** of "x".*/
+    private _getDef;
+    /**
+     * Associate a definition with this symbol
+     */
+    bind(): void;
+    reset(): void;
+    get isCanonical(): boolean;
+    set isCanonical(val: boolean);
+    is(rhs: any): boolean;
+    get canonical(): BoxedExpression;
+    toNumericValue(): [NumericValue, BoxedExpression];
+    neg(): BoxedExpression;
+    inv(): BoxedExpression;
+    abs(): BoxedExpression;
+    add(rhs: number | BoxedExpression): BoxedExpression;
+    mul(rhs: NumericValue | number | BoxedExpression): BoxedExpression;
+    div(rhs: number | BoxedExpression): BoxedExpression;
+    pow(exp: number | BoxedExpression): BoxedExpression;
+    root(n: number | BoxedExpression): BoxedExpression;
+    sqrt(): BoxedExpression;
+    ln(semiBase?: number | BoxedExpression): BoxedExpression;
+    solve(vars?: Iterable<string> | string | BoxedExpression | Iterable<BoxedExpression>): null | ReadonlyArray<BoxedExpression>;
+    get complexity(): number;
+    get operator(): string;
+    get symbol(): string;
+    get baseDefinition(): BoxedBaseDefinition | undefined;
+    get symbolDefinition(): BoxedSymbolDefinition | undefined;
+    get functionDefinition(): BoxedFunctionDefinition | undefined;
+    /**
+     * Subsequent inferences will narrow the domain of the symbol.
+     * f: integer -> real, g: real -> real
+     * g(x) => x: real
+     * f(x) => x: integer narrowed from integer to real
+     */
+    infer(t: Type): boolean;
+    get value(): number | boolean | string | object | undefined;
+    set value(value: boolean | string | Decimal | number[] | OneOf<[
+        {
+            re: number;
+            im: number;
+        },
+        {
+            num: number;
+            denom: number;
+        },
+        BoxedExpression
+    ]> | number | object | undefined);
+    get type(): BoxedType;
+    set type(t: Type | TypeString | BoxedType);
+    get sgn(): Sign | undefined;
+    has(x: string | string[]): boolean;
+    match(pattern: BoxedExpression, options?: PatternMatchOptions): BoxedSubstitution | null;
+    get isFunction(): boolean | undefined;
+    get isOdd(): boolean | undefined;
+    get isEven(): boolean | undefined;
+    get isInfinity(): boolean | undefined;
+    get isNaN(): boolean | undefined;
+    get isPositive(): boolean | undefined;
+    get isNonPositive(): boolean | undefined;
+    get isNegative(): boolean | undefined;
+    get isNonNegative(): boolean | undefined;
+    get isNumber(): boolean | undefined;
+    get isInteger(): boolean | undefined;
+    get isRational(): boolean | undefined;
+    get isReal(): boolean | undefined;
+    get re(): number;
+    get im(): number;
+    get bignumRe(): BigNum | undefined;
+    get bignumIm(): BigNum | undefined;
+    simplify(options?: Partial<SimplifyOptions>): BoxedExpression;
+    evaluate(options?: Partial<EvaluateOptions>): BoxedExpression;
+    N(): BoxedExpression;
+    replace(rules: Rule | (Rule | BoxedRule)[] | BoxedRuleSet, options?: Partial<ReplaceOptions>): BoxedExpression | null;
+    subs(sub: Substitution, options?: {
+        canonical?: CanonicalOptions;
+    }): BoxedExpression;
+    get isCollection(): boolean;
+    contains(rhs: BoxedExpression): boolean;
+    get size(): number;
+    each(start?: number, count?: number): Iterator<BoxedExpression, undefined>;
+    at(index: number): BoxedExpression | undefined;
+    get(index: BoxedExpression | string): BoxedExpression | undefined;
+    indexOf(expr: BoxedExpression): number;
+    subsetOf(rhs: BoxedExpression, strict: boolean): boolean;
+}
+export declare function makeCanonicalSymbol(ce: IComputeEngine, name: string): BoxedExpression;

@@ -1,0 +1,79 @@
+#players {
+  position: fixed;
+  top: 15px;
+  height: calc(100% - 300px);
+  width: 300px; /* 可根据需要调整宽度 */
+  left: 15px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 
+              0 5px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 15;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  transition: left 0.15s ease;
+}
+#players[shown="false"] {
+  left: -450px;
+}
+
+.team {
+  --team-color: #a0a0a0;
+}
+
+.team.non-hidden > .team-status > .team-name {
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+}
+.team.non-hidden > .team-status > .team-score {
+  padding-left: 10px;
+  padding-right: 10px;
+  background-color: white;
+}
+
+.team.non-hidden > .team-status {
+  padding-left: 30px;
+  padding-right: 30px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.team.non-hidden > .team-status::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 100%;
+  height: 5px;
+  background: var(--team-color); /* 自定义删除线颜色 */
+  transform: translateY(calc(-50% + 2.5px));
+  z-index: -1;
+}
+
+.team > .team-players > .player {
+  --name-color: #000000;
+  padding: 0px 40px;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  vertical-align: middle;
+}
+.team > .team-players > .player.online {
+  padding-left: 25px;
+}
+.team > .team-players > .player.online > .player-name::before {
+  content: "";
+  display: inline-block;
+  width: 5px;
+  height: 10px;
+  margin-right: 10px;
+  background-color: var(--name-color);
+}
+.team > .team-players > .player > .player-name {
+  color: var(--name-color)
+}
+

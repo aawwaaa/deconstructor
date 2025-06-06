@@ -1,0 +1,4 @@
+/* 0.28.0 */import type { Expression } from '../../math-json';
+export declare function bigintValue(expr: Expression | null | undefined): bigint | null;
+/** Output a shorthand if possible */
+export declare function numberToExpression(num: number | bigint, fractionalDigits?: string | number): Expression;

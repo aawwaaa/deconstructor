@@ -1,0 +1,116 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.title {
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    top: 8px;
+    left: 8px;
+    width: calc(100% - 16px);
+    height: 36px;
+}
+
+.player-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#player-color {
+    height: 36px;
+    width: 36px;
+    border: none;
+    background-color: none;
+    padding: 0;
+    font-size: 16px;
+    outline: none;
+}
+#player-name {
+    height: 36px;
+    border: 1px solid #ccc;
+    border-radius: 18px;
+    padding: 0 16px;
+    font-size: 16px;
+    outline: none;
+}
+
+.rooms-container {
+    margin-top: 52px; /* player input height + padding */
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 52px);
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+.status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 36px;
+    margin-bottom: 8px;
+    gap: 8px;
+}
+
+.status button {
+    height: 36px;
+    border: 1px solid #ccc;
+    border-radius: 18px;
+    padding: 0 16px;
+    background: white;
+    cursor: pointer;
+}
+
+#rooms {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.room {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 12px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: box-shadow 0.2s;
+}
+
+.room:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.room > .name {
+    font-size: 20px;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.room > .room-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: #666;
+}
+
+.room > .room-status > .info {
+    flex-grow: 1;
+}
+
+.room > .room-status > .join {
+    height: 36px;
+    border: 1px solid #ccc;
+    border-radius: 18px;
+    padding: 0 16px;
+    background: white;
+    cursor: pointer;
+}

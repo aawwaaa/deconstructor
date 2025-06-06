@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, minimum-scale=0.8, maximum-scale=0.8, user-scalable=no" />
+    <title>Manager</title>
+
+    <script src="manager.js" type="module"></script>
+  </head>
+  <style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+  .flex {
+    display: flex;
+    width: 100%;
+    height: calc(100% - 40px);
+  }
+  .flex > .left {
+    flex: 1;
+  }
+  .flex > .right {
+    flex: 3;
+  }
+  .flex > .left > #processes {
+    overflow-y: auto;
+    height: 54%;
+  }
+  .flex > .left > #create-process {
+    height: 44%;
+  }
+  #process-content {
+    overflow-y: auto;
+    height: 100%;
+  }
+  textarea {
+    height: 80%;
+    width: 95%;
+  }
+  #announce {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 500px;
+    height: 30px;
+    background-color: #f0f0f0;
+    overflow-y: hidden;
+    text-align: center;
+    transform: translateY(-100px);
+
+    transition: transform 0.3s ease;
+  }
+  #announce[shown='true'] {
+    transform: translateY(0);
+  }
+
+  pre {
+    width: 100%;
+    word-wrap: break-word;  /* 长单词或URL换行 */
+    overflow-wrap: break-word; /* 更现代的属性（效果同word-wrap） */
+    white-space: normal; /* 默认值，允许换行 */
+  }
+  </style>
+  <body>
+    <form id="connect-info">
+      <input name="id" value="main">
+      <input name="token" type="password">
+      <button type="submit">连接</button>
+    </form>
+    <div class="flex">
+      <div class="left">
+        <div id="processes">未连接</div>
+        <form id="create-process">
+          <input name="type" value="generate">
+          <textarea name="data"></textarea>
+          <button type="submit">创建</button>
+        </form>
+      </div>
+      <div class="right">
+        <div id="process-content"></div>
+      </div>
+    </div>
+    <div id="announce"></div>
+  </body>
+</html>

@@ -1,0 +1,199 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+.announce {
+  --top: 100px;
+  --height: 180px;
+  --height-hidden: 0px;
+  --height-folded: 30px;
+  --theme-color: #65cdfe;
+  position: absolute;
+  top: calc(var(--top) - var(--height)/2);
+  width: 100%;
+  max-height: var(--height);
+  height: var(--height);
+  background-color: #f0f0f0;
+  
+  overflow-y: hidden;
+  transition:
+    transform 0.3s ease,
+    top 0.3s ease,
+    max-height 0.3s ease
+    width 0.3s ease;
+  animation: announce-in 0.4s ease;
+
+  border-top: 5px solid var(--theme-color);
+  border-bottom: 5px solid var(--theme-color);
+}
+
+.announce[shown="false"] {
+  animation: announce-out 0.4s ease;
+  transform: translateX(-100%);
+}
+
+@keyframes announce-in {
+  0% {
+    transform: translateX(-100%);
+    max-height: var(--height-hidden);
+    top: calc(var(--top) - var(--height-hidden)/2);
+  }
+  50% {
+    transform: translateX(0%);
+    max-height: var(--height-hidden);
+    top: calc(var(--top) - var(--height-hidden)/2);
+  }
+  100% {
+    transform: translateX(0%);
+    max-height: var(--height);
+    top: calc(var(--top) - var(--height)/2);
+  }
+}
+@keyframes announce-out {
+  0% {
+    transform: translateX(0%);
+    max-height: var(--height);
+    top: calc(var(--top) - var(--height)/2);
+  }
+  50% {
+    transform: translateX(0%);
+    max-height: var(--height-hidden);
+    top: calc(var(--top) - var(--height-hidden)/2);
+  }
+  100% {
+    transform: translateX(100%);
+    max-height: var(--height-hidden);
+    top: calc(var(--top) - var(--height-hidden)/2);
+  }
+}
+
+@keyframes announce-fold {
+  0% {
+    transform: translateX(0%);
+    max-height: var(--height);
+    width: 100%;
+  }
+  100% {
+    transform: translateX(calc(100vw - 400px));
+    max-height: var(--height-folded);
+    width: 400px;
+  }
+}
+
+.announce[shown="true"][folded="true"] {
+  animation: announce-fold 0.4s ease;
+  transform: translateX(calc(100vw - 400px));
+  width: 400px;
+  max-height: var(--height-folded);
+  top: calc(var(--top) - var(--height)/2);
+}
+@keyframes announce-unfold {
+  0% {
+    transform: translateX(calc(100vw - 400px));
+    max-height: var(--height-folded);
+    width: 400px;
+  }
+  100% {
+    transform: translateX(0%);
+    max-height: var(--height);
+    width: 100%;
+  }
+}
+.announce[shown="true"][folded="false"] {
+  /* animation: announce-unfold 0.4s ease; */
+}
+
+.announce[shown="true"][folded="false"] > .head {
+  display: none;
+}
+.announce[shown="true"][folded="true"] > .body {
+  display: none;
+}
+.announce[shown="false"] > .head, .announce[shown="false"] > .body {
+  display: none;
+}
+
+.announce > .head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 20px;
+  background-color: var(--theme-color);
+}
+.announce > .head > span {
+  color: #fff;
+  font-size: 18px;
+}
+.announce > .head > button {
+  color: #fff;
+  border: none;
+  background-color: transparent;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.announce > .body {
+  padding: 20px;
+  position: relative;
+}
+
+.announce > .body > .title {
+  text-align: center;
+  font-size: 50px;
+  margin-bottom: 10px;
+  color: var(--theme-color);
+}
+.announce > .body > .subtitle {
+  text-align: center;
+  font-size: 30px;
+  color: var(--theme-color);
+}
+.announce > .body > button {
+  position: absolute;
+  top: 7px;
+  right: 20px;
+  color: var(--theme-color);
+  border: none;
+  background-color: transparent;
+  padding: 3px 10px;
+  cursor: pointer;
+}
+
+.rank::before {
+  content: '为解构链做出贡献的玩家及得分:';
+}
+
+.rank {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.rank > .player {
+  --team-color: #aaa;
+  --name-color: #aaa;
+  display: flex;
+  padding: 0 calc(50% - 100px);
+  justify-content: space-between;
+  align-items: center;
+  margin: 5px 0;
+  width: 300px;
+}
+
+.rank > .player > div > .player-team {
+  font-size: 15px;
+  color: var(--team-color);
+  display: inline-block;
+}
+.rank > .player > div > .player-name {
+  font-size: 15px;
+  color: var(--name-color);
+  margin-left: 10px;
+  display: inline-block;
+}
+.rank > .player > .player-score {
+  font-size: 15px;
+  color: var(--theme-color);
+  display: inline-block;
+}

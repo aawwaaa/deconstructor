@@ -1,0 +1,57 @@
+#chat {
+  position: fixed;
+  bottom: 250px;
+  height: 250px;
+  width: 350px; /* 可根据需要调整宽度 */
+  left: 15px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 
+              0 5px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  z-index: 16;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+
+  transition: left 0.15s ease;
+}
+#chat[shown="false"] {
+  left: -450px;
+}
+
+#chat-content {
+  overflow-y: auto;
+  height: calc(100% - 40px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 5px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#chat-content > .chat-line {
+  margin-bottom: 5px;
+  display: block;
+}
+
+#chat-form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#chat-form > input {
+  flex-grow: 1;
+  margin-right: 5px;
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#chat-form > button {
+  padding: 5px 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
