@@ -4,6 +4,7 @@
   "description": "",
   "main": "main.js",
   "scripts": {
+    "start": "node main.js",
     "test": "nodemon --ignore 'static/*' main.js"
   },
   "author": "",
@@ -16,7 +17,11 @@
     "libxmljs": "^1.0.11",
     "mathjax": "^3.2.2",
     "mathlive": "^0.105.3",
+    "node-fetch": "^3.3.2",
     "nodemon": "^3.1.10",
     "openai": "^5.1.0"
+  },
+  "devDependencies": {
+    "js-beautify": "^1.15.4"
   }
 }

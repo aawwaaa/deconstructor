@@ -360,14 +360,6 @@ if (roomDir) {
   })
 }
 
-if (!rooms['id']) {
-  new Room({
-    id: 'id',
-    name: 'Default',
-    creator: 'bc0b7604-25c2-4005-8746-508f3bc0578a'
-  })
-}
-
 setInterval(() => {
   for (let id in rooms) {
     rooms[id].update()

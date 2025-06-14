@@ -3,11 +3,14 @@ const fs = require('fs')
 
 const config = require('../config')
 
-const client = new openai.OpenAI({
-  baseURL: config.endpoint,
-  apiKey: config.apikey,
-  timeout: 10000
-})
+const clients = {}
+for (const [name, endpoint] of Object.entries(config.endpoints)) {
+  clients[name] = new openai.OpenAI({
+    baseURL: endpoint.div,
+    apiKey: endpoint.apikey,
+    timeout: 10000
+  })
+}
 
 const managers = {}
 
@@ -89,13 +92,18 @@ class AIProvider {
         continue
       }
       const [key, value] = line.substring(2).trim().split(' ')
+      if (key == 'rem') continue
       options[key] = isNaN(value) ? value : parseFloat(value)
     }
-    const messages = [
+    const messages = options.prompt_mode == "user"
+    ?[
+      { role: 'user', content: buffer.join('\n') + "\n" + data },
+    ]
+    :[
       { role: 'system', content: buffer.join('\n') },
       { role: 'user', content: data }
     ]
-    console.log(options)
+    delete options.prompt_mode
     return new AIProcess(messages, type+'#'+Date.now(), options)
   }
 }
@@ -134,7 +142,7 @@ class AIProcess {
     }
     ws.send('reset')
     for (let message of this.messages) {
-      if (message.role == 'assistant') continue
+      // if (message.role == 'assistant') continue
       ws.send('message', message)
     }
     if (this.buffer != '')
@@ -150,11 +158,14 @@ class AIProcess {
     if (this.status == 'waiting') (async () => {
       this.status = 'running'
       this.listeners.map(a => a('running'))
+      const client = clients[this.options.endpoint ?? Object.keys(config.endpoints)[0]]
+      delete this.options.endpoint
       const response = await client.chat.completions.create(Object.assign({
         messages: this.messages.filter(a => a.role != 'assistant-thinking'),
         temperature: 0.55,
         stream: true,
       }, this.options))
+      
       for await (const part of response) {
         if (part.choices[0].delta.reasoning_content) {
           if (this.buffer == ''){
@@ -175,7 +186,12 @@ class AIProcess {
           this.send('delta', {content: delta})
         }
       }
+      
       this.send('end')
+      if (this.dataBuffer.includes('</think>\n')) {
+        this.buffer = this.dataBuffer.substring(0, this.dataBuffer.indexOf('</think>\n'))
+        this.dataBuffer = this.dataBuffer.substring(this.dataBuffer.indexOf('</think>\n') + '</think>\n'.length)
+      }
       this.messages.push({role: 'assistant-thinking', content: this.buffer})
       this.messages.push({role: 'assistant', content: this.dataBuffer})
       this.buffer = ''
@@ -184,6 +200,7 @@ class AIProcess {
       this.listeners.map(a => a('done'))
       this.resolve(this.messages[this.messages.length - 1].content)
     })().catch(error => {
+      console.error('Error in AI process:', error)
       this.status = 'error'
       this.listeners.map(a => a('error'))
       this.messages.push({role: 'error', content: error.message + "\n" + error.stack})

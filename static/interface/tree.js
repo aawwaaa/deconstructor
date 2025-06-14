@@ -203,7 +203,33 @@ class Node {
     this.element.setAttribute('status', this.data.status)
     this.element.style.setProperty('--team-color', this.data.teamColor)
     this.element.style.setProperty('--name-color', this.data.color)
-    this.dataElement.innerText = this.data.data
+    let data = this.data.data
+    if (data != this.lastData){
+      this.dataElement.innerHTML = ''
+      data = data.replace(/\\begin{tikzpicture}[\s\S]*?\\end{tikzpicture}/, (pic) => {
+        const container = document.createElement('div')
+        const script = document.createElement('script')
+        script.type = 'text/tikz'
+        script.textContent = pic.split("\n").filter(a => !a.trim().startsWith("%")).join("\n")
+        this.dataElement.appendChild(container)
+        container.appendChild(script)
+        try{
+          process_tikz(script)
+        }catch(e){}
+        return ''
+      })
+      data = data.replace(/\\begin{enumerate}([\s\S]*)?\\end{enumerate}/, (_1, list) => {
+        const items = list.split("\\item").filter(a => a)
+        const html = items.map((item) => {
+          return `${item}`
+        }).join('')
+        return `${html}`
+      })
+      const p = document.createElement('p')
+      p.innerText = data
+      this.dataElement.appendChild(p)
+      this.lastData = this.data.data
+    }
     this.playerElement.innerText = this.data.player
     this.barElement.style.setProperty('--bar-value', this.getPrecentage())
     this.barElement.innerText = Math.round(this.getPrecentage() * 100) + "%"
@@ -274,7 +300,7 @@ function loadTree(tree) {
   for (let child of tree.childs) {
     iter(rootNode, child)
   }
-  MathJax.typeset();
+  try {MathJax.typeset(); } catch(e) {}
 }
 
 function updateNode(id, data) {
@@ -300,7 +326,7 @@ function updateNode(id, data) {
     element.element.classList.add('selected')
     currentSelectedNode = element
   }
-  MathJax.typeset();
+  try {MathJax.typeset(); } catch(e) {}
 }
 
 function getSelected() {

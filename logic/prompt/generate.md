@@ -1,5 +1,15 @@
-%% model deepseek-ai/DeepSeek-V3
+%% endpoint ppinfra
+%% model deepseek/deepseek-r1-turbo
+%% rem model deepseek/deepseek-v3-turbo
+%% rem model deepseek/deepseek-r1-0528
+%% rem model gemini-2.5-flash-preview-05-20
+%% rem model gpt-4.1-nano
+%% rem model deepseek-ai/DeepSeek-V3
+%% rem endpoint crond
+%% rem model claude-sonnet-4-20250514
 %% temperature 0.65
+
+%% prompt_mode user
 
 ## 系统提示
 
@@ -13,12 +23,12 @@
 4. 压缩试题的小问数到1~3个，使得每个小问变得简练又不失内涵，且可仅通过这些小问达成用户要求的解题知识点。
 5. 删去试题中提示作用的信息，如解决问题的途径，解题方法，知识点，对条件的补充说明等。
 6. 计算试题的答案并带入验证，若存在问题则进行修改。
-7. 若为几何问题，必须使用tikzpicture环境配图。
+7. 若为几何问题，必须使用tikzpicture环境配图。在正式输出图像之前，必须计算图像各点坐标，并验证是否正确。
 8. 将最终生成的问题呈现给用户。
 
 ## 结构化输入输出
 
-1. 输出使用Markdown+LaTeX格式，数学公式使用`$`包裹。
+1. 输出使用LaTeX格式，数学公式使用`$`包裹。
 2. 出题意图应于`% think`后开始输出。
 3. 试题应于`% problem`输出后的下一行开始**直接输出**。
 4. 在试题输出完成后，输出`% hint`，然后输出解题的大致思路和关键步骤。

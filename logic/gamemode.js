@@ -13,6 +13,7 @@ class Gamemode {
   load(obj) {
     if (!this.presetData) this.presetData = new generate.PresetData(this.room.manager, this.room.preset)
     if (obj.presetData) this.presetData.load(obj.presetData)
+    this.presetData.listener = () => this.room.saveToFile()
   }
 
   state() {
@@ -20,7 +21,9 @@ class Gamemode {
   }
 
   initState() {
-    this.presetData = new generate.PresetData(this.room.manager, this.room.preset)
+    if (this.room.level == 0) 
+      this.presetData = new generate.PresetData(this.room.manager, this.room.preset)
+    this.presetData.listener = () => this.room.saveToFile()
     this.state().setRootNode({
       data: 'Loading...', player: 'system', score: 0, status: 'verifing',
       id: 'root', childs: []
@@ -53,20 +56,22 @@ class Personal extends Gamemode {
   save(obj) {
     return {
       ...super.save(),
-      contributions: this.contributions
+      contributions: this.contributions,
     }
   }
   load(obj) {
     super.load(obj)
     this.contributions = obj.contributions
-    if (this.presetData.current == null)
-      if (!this.presetData.generatingProcess && !this.finished)
-        setTimeout(() => this.initState())
     setTimeout(() => {
       for (const node of Object.values(this.state().nodes)) {
         if (node.id != 'root' && node.status == 'verifing')
           this.checkNode(Object.values(this.state().nodes).find(a => a.childs.includes(node)), node)
       }
+      if (this.state().nodes['root'].status == 'verifing' || this.presetData.current == null)
+        if (!this.presetData.generatingProcess && !this.finished)
+          this.initState()
+      if (!this.presetData.generatingProcess && !this.finished && this.presetData.buffer == null)
+        this.presetData.startGenerating()
     })
   }
   async initState() {
@@ -74,7 +79,7 @@ class Personal extends Gamemode {
     this.contributions = {}
     this.nextTimer = -1
     const current = await this.presetData.pullCurrent()
-    if (current == null || (this.room.config.levels != 0 && current.level >= this.room.config.levels)) {
+    if (current == null || (this.room.config.levels != 0 && this.room.level >= this.room.config.levels)) {
       this.finished = true
       this.state().setRootNode({
         data: '通关!', player: 'system', score: 0, status: 'submitted',

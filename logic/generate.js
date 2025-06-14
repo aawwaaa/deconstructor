@@ -57,7 +57,7 @@ const scores = {
   '验证': 'ignore',
   '答案': 100,
 }
-function parseSolution(content){
+function parseFormatted(content){
   content = content.toString()
   const lines = content.split('\n')
   const output = {}
@@ -86,7 +86,7 @@ function parseSolution(content){
   }
 }
 
-function parseScore(content){
+function parseValidation(content){
   content = content.toString()
   const lines = content.split('\n')
   const output = {}
@@ -244,6 +244,7 @@ class PresetData {
     this.buffer = null
 
     this.generatingProcess = null
+    this.listener = () => void 0
   }
 
   save() {
@@ -290,29 +291,40 @@ class PresetData {
       result = ret.problem
       hint = ret.hint
     }
-    let {score, solution} = await this.catch(async () => {
-      this.generatingProcess = this.manager.createProcess('solve', result + (hint ?? ''))
+    const solution = await this.catch(async () => {
+      this.generatingProcess = this.manager.createProcess('solve', result + (hint? '\n\n提示:\n' + hint: ''))
+      return await this.generatingProcess.run()
+    })
+    const {score, solution: formatted} = await this.catch(async () => {
+      this.generatingProcess = this.manager.createProcess('format', solution)
       const ret = await this.generatingProcess.run();
-      return parseSolution(ret)
+      return parseFormatted(ret)
     })
     const data = {
       problem: result,
-      solution,
+      solution: formatted,
       score
     }
+    this.generatingProcess = null
+    this.repeats[index] --
     if (this.current) this.buffer = data
     else {
       this.current = data
       this.startGenerating() // throw it away
     }
-    this.generatingProcess = null
-    this.repeats[index] --
     const deltaTime = Date.now() - beginTime
     console.log(`Generated in ${Math.round(deltaTime/1000)}s`)
+    this.listener()
   }
   async pullCurrent() {
     if (!this.current) {
       await this.startGenerating()
+      return this.current
+    }
+    if (!this.buffer) {
+      await this.startGenerating()
+      this.current = this.buffer
+      this.buffer = null
       return this.current
     }
     this.current = this.buffer
@@ -340,7 +352,7 @@ ${data}
     const ret = await this.catch(() => this.manager.createProcess('validate', payload).run())
     const deltaTime = Date.now() - beginTime
     console.log(`Validated in ${Math.round(deltaTime/1000)}s`)
-    return parseScore(ret)
+    return parseValidation(ret)
   }
 }
 
